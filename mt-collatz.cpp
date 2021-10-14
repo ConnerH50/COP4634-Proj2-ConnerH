@@ -1,4 +1,3 @@
-#include "mt-collatz.hpp"
 #include <iostream>
 #include <thread>
 #include "pthread.h"
@@ -15,7 +14,7 @@ int *histogramArray;
 mutex mtxLocker;
 
 void runCollatz(int collatzRange, int threadNum){
-	cout << "Thread ID "<< threadNum << endl;
+	//cout << "Thread ID "<< threadNum << endl;
 	//cout << collatzRange << endl;
 
 	int stoppingTime = 0; // increment every loop in the while loop, put this int into the histogram array
@@ -27,39 +26,26 @@ void runCollatz(int collatzRange, int threadNum){
 			mtxLocker.unlock();
 			break;
 		}
-		cout << "Thread " << threadNum << " COUNTER: " << COUNTER++ << endl;
-		mtxLocker.unlock();
-	}
-
-	/*while(COUNTER <= collatzRange){
-
-		if(COUNTER >= collatzRange){
-			cout << "	COUNTER IS AT COLLATZRANGE" << endl;
-		}
-
-		mtxLocker.lock();
 		num = COUNTER++;
-		cout << "Thread ID: " << this_thread::get_id() << ", COUNTER: " << COUNTER << ", Num: " << num << endl << endl;
 		mtxLocker.unlock();
-		stoppingTime = 0;
-
+	
+		stoppingTime = 0;	
 
 		while(num > 1){
-			
-			++stoppingTime;
+			stoppingTime++;
 			//cout << num << ", ";
 
 			if(num % 2 == 0){ //if even
-				num = num/ 2;
+				num = num / 2;
 			}else{ //if odd
-				num = (3*num) + 1;
-			}	
+				num = (3 * num) + 1;
+			}
 		}
+
 		//cout << num << endl;
-		//mtxLocker.unlock();
-	
 		histogramArray[numInArray++] = stoppingTime;
-	}*/
+
+	}
 }
 
 int main(int argc, char **argv){
@@ -90,10 +76,16 @@ int main(int argc, char **argv){
 		threadArray[i].join();
 	}
 
-	for(int i = 0; i < MAXNUMBER; i++){
-		cout << histogramArray[i] << ", ";
+	cout << histogramArray[0] << ", ";
+
+	for(int i = 1; i < MAXNUMBER; i++){
+		if(histogramArray[i] == 0){
+			;
+		}else{
+			cout << histogramArray[i] << ", ";
+		}
 	}
-	cout << endl;
+	cout << endl << endl << MAXNUMBER << endl;
 
 	cout << "Finished!" << endl;
 	delete[] histogramArray;
