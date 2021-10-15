@@ -9,8 +9,11 @@ using namespace std;
 
 int COUNTER = 2;
 int numInArray = 1;
+int histoNum = 500;
 int MAXNUMBER;
-int *histogramArray;
+//int *histogramArray;
+int histogramArray[500];
+int *stoppingTimeArray;
 mutex mtxLocker;
 
 void runCollatz(int collatzRange, int threadNum){
@@ -42,8 +45,10 @@ void runCollatz(int collatzRange, int threadNum){
 			}
 		}
 
-		//cout << num << endl;
-		histogramArray[numInArray++] = stoppingTime;
+		mtxLocker.lock();
+		histogramArray[stoppingTime]++;
+		//histogramArray[numInArray++] = stoppingTime;
+		mtxLocker.unlock();
 
 	}
 }
@@ -54,10 +59,16 @@ int main(int argc, char **argv){
 
 	cout << atoi(argv[1]) << endl;
 	MAXNUMBER = atoi(argv[1]);
-	histogramArray = new int[atoi(argv[1])];
+	//histogramArray = new int[atoi(argv[1])];
+	stoppingTimeArray = new int[atoi(argv[1])];
 
 	// init historgram array with 0s
 	for(int i = 0; i < atoi(argv[1]); i++){
+		//histogramArray[i] = 0;
+		stoppingTimeArray[i] = 0;
+	}
+
+	for(int i = 0; i < 500; i++){
 		histogramArray[i] = 0;
 	}
 
@@ -76,19 +87,37 @@ int main(int argc, char **argv){
 		threadArray[i].join();
 	}
 
+	//print out stoppingtime frequency
 	cout << histogramArray[0] << ", ";
+	for(int i = 1; i < 500; i++){
+		if(histogramArray[i] == 0){
+			;
+		}
+		else{
+			cout << histogramArray[i] << ", ";
+			if(i % 10 == 0){
+				cout << endl;
+			}
+		}
+	}
+
+	/*cout << histogramArray[0] << ", ";
 
 	for(int i = 1; i < MAXNUMBER; i++){
 		if(histogramArray[i] == 0){
 			;
 		}else{
 			cout << histogramArray[i] << ", ";
+			if(i % 10 == 0){
+				cout << endl;
+			}
 		}
 	}
-	cout << endl << endl << MAXNUMBER << endl;
+	*/
 
 	cout << "Finished!" << endl;
-	delete[] histogramArray;
+	//delete[] histogramArray;
+	delete[] stoppingTimeArray;
 
 	return 0;
 }
