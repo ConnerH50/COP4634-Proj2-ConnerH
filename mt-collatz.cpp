@@ -26,13 +26,13 @@ void runCollatz(int collatzRange, int threadNum){
 		if(NOLOCK == false){
 			//cout << "NOLOCK enabled" << endl;
 
-			if(COUNTER > collatzRange){
+			if(COUNTER >= collatzRange){
 				break;
 			}
 			num = COUNTER++;
 		}else{		
 			mtxLocker.lock();
-			if(COUNTER > collatzRange){
+			if(COUNTER >= collatzRange){
 				mtxLocker.unlock();
 				break;
 			}
@@ -44,8 +44,6 @@ void runCollatz(int collatzRange, int threadNum){
 
 		while(num > 1){
 			stoppingTime++;
-			//cout << num << ", ";
-
 			if(num % 2 == 0){ //if even
 				num = num / 2;
 			}else{ //if odd
@@ -66,6 +64,8 @@ void runCollatz(int collatzRange, int threadNum){
 
 int main(int argc, char **argv){
 
+	struct timespec start, stop;
+
 	if(argv[3] != NULL){
 		if(strcmp(argv[3], "-nolock") == 0){
 			NOLOCK = true;
@@ -74,19 +74,19 @@ int main(int argc, char **argv){
 	}
 
 	thread threadArray[atoi(argv[2])];
-
-	cout << atoi(argv[1]) << endl;
 	MAXNUMBER = atoi(argv[1]);
 	//histogramArray = new int[atoi(argv[1])];
 
 	// init historgram array with 0s
-	for(int i = 0; i < atoi(argv[1]); i++){
+	/*for(int i = 0; i < atoi(argv[1]); i++){
 		//histogramArray[i] = 0;
-	}
+	}*/
 
 	for(int i = 0; i < 1000; i++){
 		histogramArray[i] = 0;
 	}
+
+	clock_gettime(CLOCK_REALTIME, &start);
 
 	// create the threads
 	for(int i = 0; i < atoi(argv[2]); i++){
@@ -120,7 +120,9 @@ int main(int argc, char **argv){
 	}
 	*/
 
-	cout << "Finished!" << endl;
+	clock_gettime(CLOCK_REALTIME, &stop);
+	double time = (stop.tv_sec - start.tv_sec) + (stop.tv_nsec - start.tv_nsec) / 100000000.0;
+	cerr << argv[1] << "," << argv[2] << "," << time << endl;
 	//delete[] histogramArray;
 
 	return 0;
