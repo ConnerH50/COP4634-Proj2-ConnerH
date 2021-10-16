@@ -3,16 +3,16 @@
 #include "pthread.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <mutex>
 
 using namespace std;
 
 int COUNTER = 2;
 int numInArray = 1;
-int histoNum = 500;
 int MAXNUMBER;
 //int *histogramArray;
-int histogramArray[500];
+int histogramArray[1000];
 int *stoppingTimeArray;
 mutex mtxLocker;
 
@@ -47,7 +47,6 @@ void runCollatz(int collatzRange, int threadNum){
 
 		mtxLocker.lock();
 		histogramArray[stoppingTime]++;
-		//histogramArray[numInArray++] = stoppingTime;
 		mtxLocker.unlock();
 
 	}
@@ -60,15 +59,15 @@ int main(int argc, char **argv){
 	cout << atoi(argv[1]) << endl;
 	MAXNUMBER = atoi(argv[1]);
 	//histogramArray = new int[atoi(argv[1])];
-	stoppingTimeArray = new int[atoi(argv[1])];
+	//stoppingTimeArray = new int[atoi(argv[1])];
 
 	// init historgram array with 0s
 	for(int i = 0; i < atoi(argv[1]); i++){
 		//histogramArray[i] = 0;
-		stoppingTimeArray[i] = 0;
+		//stoppingTimeArray[i] = 0;
 	}
 
-	for(int i = 0; i < 500; i++){
+	for(int i = 0; i < 1000; i++){
 		histogramArray[i] = 0;
 	}
 
@@ -77,27 +76,19 @@ int main(int argc, char **argv){
 		threadArray[i] = thread(runCollatz, atoi(argv[1]), i);
 	}
 
-	/*for(int i = 0; i < MAXNUMBER; i++){
-		cout << histogramArray[i] << ", ";
-	}
-	cout << endl;*/
-
 	//join threads with main thread
 	for(int i = 0; i < atoi(argv[2]); i++){
 		threadArray[i].join();
 	}
 
 	//print out stoppingtime frequency
-	cout << histogramArray[0] << ", ";
-	for(int i = 1; i < 500; i++){
+	cout << 0 << "," << histogramArray[0] << endl;
+	for(int i = 1; i < 1000; i++){
 		if(histogramArray[i] == 0){
 			;
 		}
 		else{
-			cout << histogramArray[i] << ", ";
-			if(i % 10 == 0){
-				cout << endl;
-			}
+			cout << i << "," << histogramArray[i] << endl;
 		}
 	}
 
@@ -107,17 +98,14 @@ int main(int argc, char **argv){
 		if(histogramArray[i] == 0){
 			;
 		}else{
-			cout << histogramArray[i] << ", ";
-			if(i % 10 == 0){
-				cout << endl;
-			}
+			cout << i << "," << histogramArray[i] << endl;
 		}
 	}
 	*/
 
 	cout << "Finished!" << endl;
 	//delete[] histogramArray;
-	delete[] stoppingTimeArray;
+	//delete[] stoppingTimeArray;
 
 	return 0;
 }
