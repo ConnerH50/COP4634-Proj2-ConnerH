@@ -16,10 +16,10 @@ int histogramArray[1000];
 bool NOLOCK = false;
 mutex mtxLocker;
 
-void runCollatz(int collatzRange, int threadNum){
+void runCollatz(int collatzRange, long long threadNum){
 
 	int stoppingTime = 0; // increment every loop in the while loop, put this int into the histogram array
-	int num = COUNTER; // this is the number we use for this iteration, always set equal to COUNTER
+	long long num = COUNTER; // this is the number we use for this iteration, always set equal to COUNTER
 
 	while(1){
 		if(NOLOCK == true){

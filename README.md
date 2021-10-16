@@ -1,3 +1,1 @@
-# COP 4634 Project 2
-
-Conner Hendrick's COP-4634 Project 2
+# COP 4635 Project 2 ConnerH
