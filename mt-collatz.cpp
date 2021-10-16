@@ -36,7 +36,6 @@ void runCollatz(int collatzRange, int threadNum){
 				mtxLocker.unlock();
 				break;
 			}
-			//mtxLocker.lock();
 			num = COUNTER++;
 			mtxLocker.unlock();
 		}
@@ -70,6 +69,8 @@ int main(int argc, char **argv){
 	if(argv[3] != NULL){
 		if(strcmp(argv[3], "-nolock") == 0){
 			NOLOCK = true;
+			//cout << "NOLOCK enabled" << endl;
+
 		}
 	}
 
