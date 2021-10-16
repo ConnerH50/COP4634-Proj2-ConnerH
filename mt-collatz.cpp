@@ -12,7 +12,6 @@ using namespace std;
 int COUNTER = 2;
 int numInArray = 1;
 int MAXNUMBER;
-//int *histogramArray;
 int histogramArray[1000];
 bool NOLOCK = false;
 mutex mtxLocker;
@@ -24,8 +23,6 @@ void runCollatz(int collatzRange, int threadNum){
 
 	while(1){
 		if(NOLOCK == true){
-			//cout << "NOLOCK enabled" << endl;
-
 			if(COUNTER >= collatzRange){
 				break;
 			}
@@ -69,19 +66,11 @@ int main(int argc, char **argv){
 	if(argv[3] != NULL){
 		if(strcmp(argv[3], "-nolock") == 0){
 			NOLOCK = true;
-			//cout << "NOLOCK enabled" << endl;
-
 		}
 	}
 
 	thread threadArray[atoi(argv[2])];
 	MAXNUMBER = atoi(argv[1]);
-	//histogramArray = new int[atoi(argv[1])];
-
-	// init historgram array with 0s
-	/*for(int i = 0; i < atoi(argv[1]); i++){
-		//histogramArray[i] = 0;
-	}*/
 
 	for(int i = 0; i < 1000; i++){
 		histogramArray[i] = 0;
@@ -105,21 +94,9 @@ int main(int argc, char **argv){
 		cout << i << "," << histogramArray[i] << endl;
 	}
 
-	/*cout << histogramArray[0] << ", ";
-
-	for(int i = 1; i < MAXNUMBER; i++){
-		if(histogramArray[i] == 0){
-			;
-		}else{
-			cout << i << "," << histogramArray[i] << endl;
-		}
-	}
-	*/
-
 	clock_gettime(CLOCK_REALTIME, &stop);
 	double time = (stop.tv_sec - start.tv_sec) + (stop.tv_nsec - start.tv_nsec) / 100000000.0;
 	cerr << argv[1] << "," << argv[2] << "," << time << endl;
-	//delete[] histogramArray;
 
 	return 0;
 }
