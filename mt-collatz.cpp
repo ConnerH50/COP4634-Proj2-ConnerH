@@ -23,7 +23,7 @@ void runCollatz(int collatzRange, int threadNum){
 	int num = COUNTER; // this is the number we use for this iteration, always set equal to COUNTER
 
 	while(1){
-		if(NOLOCK == false){
+		if(NOLOCK == true){
 			//cout << "NOLOCK enabled" << endl;
 
 			if(COUNTER >= collatzRange){
@@ -51,7 +51,7 @@ void runCollatz(int collatzRange, int threadNum){
 			}
 		}
 		
-		if(NOLOCK == false){
+		if(NOLOCK == true){
 			histogramArray[stoppingTime]++;
 		}else{
 			mtxLocker.lock();
@@ -69,7 +69,7 @@ int main(int argc, char **argv){
 	if(argv[3] != NULL){
 		if(strcmp(argv[3], "-nolock") == 0){
 			NOLOCK = true;
-			cout << "NOLOCK enabled" << endl;
+			//cout << "NOLOCK enabled" << endl;
 		}
 	}
 
