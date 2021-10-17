@@ -16,6 +16,14 @@ int histogramArray[1000];
 bool NOLOCK = false;
 mutex mtxLocker;
 
+long long calCollatz(long long num){	
+	if(num % 2 == 0){
+		return num / 2;
+	}else{
+		return (3 * num) + 1;
+	}
+}
+
 void runCollatz(int collatzRange, long long threadNum){
 
 	int stoppingTime = 0; // increment every loop in the while loop, put this int into the histogram array
@@ -41,11 +49,7 @@ void runCollatz(int collatzRange, long long threadNum){
 
 		while(num > 1){
 			stoppingTime++;
-			if(num % 2 == 0){ //if even
-				num = num / 2;
-			}else{ //if odd
-				num = (3 * num) + 1;
-			}
+			num = calCollatz(num);
 		}
 		
 		if(NOLOCK == true){
