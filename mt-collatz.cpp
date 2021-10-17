@@ -9,6 +9,8 @@
 
 using namespace std;
 
+#define BILLION 1E9
+
 int COUNTER = 2;
 int numInArray = 1;
 int MAXNUMBER;
@@ -99,7 +101,7 @@ int main(int argc, char **argv){
 	}
 
 	clock_gettime(CLOCK_REALTIME, &stop);
-	double time = (stop.tv_sec - start.tv_sec) + (stop.tv_nsec - start.tv_nsec) / 100000000.0;
+	double time = (stop.tv_sec - start.tv_sec) + (stop.tv_nsec - start.tv_nsec) / BILLION;
 	cerr << argv[1] << "," << argv[2] << "," << time << endl;
 
 	return 0;
